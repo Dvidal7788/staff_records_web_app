@@ -39,7 +39,6 @@
         <div class="centered top">
             <input name="new_value" type="text" placeholder="Enter new value here" required><br>
             <input name="emp_id" type="hidden" value="{{ person_to_edit['emp_id'] }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button class="btn btn-success top" type="submit">Edit Staff Member</button>
         </div>
     </form>

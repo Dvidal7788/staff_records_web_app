@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
 from flask_mail import Mail, Message
-from flask_wtf import CSRFProtect, FlaskForm
+# from flask_wtf import CSRFProtect, FlaskForm
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 import sqlite3
@@ -18,19 +18,20 @@ app = Flask(__name__)
 # Configure session
 app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_TYPE'] = 'filesystem'
+# app.config['SESSION_USE_SIGNER'] = True
 Session(app)
 
-# Generate a random SECRET_KEY
-if 'SECRET_KEY' not in app.config:
-    app.config['SECRET_KEY'] = os.urandom(24).hex()
+# # Generate a random SECRET_KEY
+# if 'SECRET_KEY' not in app.config:
+#     app.config['SECRET_KEY'] = os.urandom(24).hex()
 
-# Generate a random WTF_CSRF_SECRET_KEY
-if 'WTF_CSRF_SECRET_KEY' not in app.config:
-    app.config['WTF_CSRF_SECRET_KEY'] = os.urandom(24).hex()
+# # Generate a random WTF_CSRF_SECRET_KEY
+# if 'WTF_CSRF_SECRET_KEY' not in app.config:
+#     app.config['WTF_CSRF_SECRET_KEY'] = os.urandom(24).hex()
 
-# Configure CSRF
-csrf = CSRFProtect(app)
-csrf.init_app(app)
+# # Configure CSRF
+# csrf = CSRFProtect(app)
+# csrf.init_app(app)
 
 # Configure e-mail
 app.config['MAIL_DEFAULT_SENDER'] = 'staffrecordsdatabase@gmail.com'
@@ -81,14 +82,14 @@ class PieChart():
         self.sum = True
         self.percentage = False
         self.redirect = False
-        self.joined_df = []
+        self.joined_df = pd.DataFrame()
         self.file_path = ''
         return
 
 
-# This will only be used for {{ form.hidden_tag() }}, as the {{ csrf_token() }} syntax seems to have bugs
-class Form(FlaskForm):
-    pass
+# # This will only be used for {{ form.hidden_tag() }}, as the {{ csrf_token() }} syntax seems to have bugs
+# class Form(FlaskForm):
+#     pass
 
 
 # Globals
@@ -148,9 +149,9 @@ def login_required(f):
 @app.route("/")
 def index():
 
-    print('\n\nDEBUG Index Session:\n', session)
-    print('\n\nDEBUG Index Request:\n', request.form)
-    print('\n\nDEBUG Index app.config["WTF_CSRF_SECRET_KEY"]:\n\n', app.config['WTF_CSRF_SECRET_KEY'])
+    # print('\n\nDEBUG Index Session:\n', session)
+    # print('\n\nDEBUG Index Request:\n', request.form)
+    # print('\n\nDEBUG Index app.config["WTF_CSRF_SECRET_KEY"]:\n\n', app.config['WTF_CSRF_SECRET_KEY'])
 
     if not 'username' in session:
         # if not 'csrf_token' in session:
@@ -164,9 +165,9 @@ def index():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
 
-    print('\n\nDEBUG Register BEGIN\n', session)
-    print('\n\nDEBUG Register BEGIN\n', request.form)
-    print('\n\nDEBUG Register app.config["WTF_CSRF_SECRET_KEY"]:\n\n', app.config['WTF_CSRF_SECRET_KEY'])
+    # print('\n\nDEBUG Register BEGIN\n', session)
+    # print('\n\nDEBUG Register BEGIN\n', request.form)
+    # print('\n\nDEBUG Register app.config["WTF_CSRF_SECRET_KEY"]:\n\n', app.config['WTF_CSRF_SECRET_KEY'])
 
     # Don't register if already logged in
     if 'user_id' in session:
@@ -174,7 +175,7 @@ def register():
 
     # GET
     if request.method == 'GET':
-        return render_template('register.html', security_questions=security_questions, form=Form())
+        return render_template('register.html', security_questions=security_questions)
 
     # POST
     else:
@@ -264,9 +265,9 @@ def register():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 
-    print('\n\nDEBUG Login BEGIN\n', session)
-    print('\n\nDEBUG Login BEGIN\n', request.form)
-    print('\n\nDEBUG Login app.config["WTF_CSRF_SECRET_KEY"]:\n\n', app.config['WTF_CSRF_SECRET_KEY'])
+    # print('\n\nDEBUG Login BEGIN\n', session)
+    # print('\n\nDEBUG Login BEGIN\n', request.form)
+    # print('\n\nDEBUG Login app.config["WTF_CSRF_SECRET_KEY"]:\n\n', app.config['WTF_CSRF_SECRET_KEY'])
 
     # Don't log in if already logged in
     if 'user_id' in session:
@@ -283,15 +284,15 @@ def login():
 
             # Reset bool to default
             registration_success = False
-            return render_template('login.html', registration_success=True, form=Form())
+            return render_template('login.html', registration_success=True)
 
         elif password_reset_successful:
 
             # Reset bool to default
             password_reset_successful = False
-            return render_template('login.html', password_reset_successful=True, form=Form())
+            return render_template('login.html', password_reset_successful=True)
 
-        return render_template('login.html', registration_success=False, form=Form())
+        return render_template('login.html', registration_success=False)
 
 
     # POST
@@ -346,7 +347,7 @@ def password_reset():
 
     # GET
     if request.method == 'GET':
-        return render_template("/password_reset.html", security_questions=security_questions, form=Form())
+        return render_template("/password_reset.html", security_questions=security_questions)
 
     # POST
     else:
@@ -360,10 +361,10 @@ def password_reset():
             tmp_cursor = db.execute("SELECT security_question FROM users WHERE username = ?", (username,))
             for tmp_tuple in tmp_cursor:
                 # Display Page 2
-                return render_template("/password_reset.html", security_question=tmp_tuple[0], show_page2=True, form=Form())
+                return render_template("/password_reset.html", security_question=tmp_tuple[0], show_page2=True)
 
             # Username not found
-            return render_template("/password_reset.html", username_not_found=True, form=Form())
+            return render_template("/password_reset.html", username_not_found=True)
 
         # Check Page 2
         elif request.form.get('security_answer'):
@@ -375,16 +376,16 @@ def password_reset():
 
             if check_password_hash(security_answer_hashed, request.form.get('security_answer')):
                 # Display Page 3
-                return render_template("/password_reset.html", show_page3=True, username=username, form=Form())
+                return render_template("/password_reset.html", show_page3=True, username=username)
             else:
-                return render_template("/password_reset.html", answer_incorrect=True, form=Form())
+                return render_template("/password_reset.html", answer_incorrect=True)
 
         elif request.form.get('new_password') and request.form.get('confirmation'):
             new_password = request.form.get('new_password')
             confirmation = request.form.get('confirmation')
 
             if new_password != confirmation:
-                return render_template("password_reset.html", passwords_did_not_match=True, form=Form())
+                return render_template("password_reset.html", passwords_did_not_match=True)
 
             db = sqlite3.connect("sql/backend.db")
             db.execute("UPDATE users SET pw_hash = ? WHERE username = ?", (generate_password_hash(new_password ,method='pbkdf2:sha512'), username))
@@ -415,9 +416,9 @@ def add_new_staff():
             # Reset staff_added before rendering template
             staff_added = False
 
-            return render_template('add_new_staff.html', departments=departments, staff_added=True, username=session['username'], today=date.today(), form=Form())
+            return render_template('add_new_staff.html', departments=departments, staff_added=True, username=session['username'], today=date.today())
         else:
-            return render_template('add_new_staff.html', departments=departments, staff_added=False, username=session['username'], today=date.today(), form=Form())
+            return render_template('add_new_staff.html', departments=departments, staff_added=False, username=session['username'], today=date.today())
 
 
     # POST
@@ -488,9 +489,9 @@ def departments():
     if request.method == 'GET' and not departments_all:
         if email_sent:
             email_sent = False
-            return render_template('departments.html', departments=departments, columns=columns, staff=staff, results=results, username=session['username'], email_sent=True, display_results=True, form=Form())
+            return render_template('departments.html', departments=departments, columns=columns, staff=staff, results=results, username=session['username'], email_sent=True, display_results=True)
         else:
-            return render_template('departments.html', departments=departments, columns=columns, landing_page=True, username=session['username'], email_sent=False, form=Form())
+            return render_template('departments.html', departments=departments, columns=columns, landing_page=True, username=session['username'], email_sent=False)
 
     # POST
     elif request.method == 'POST' or departments_all:
@@ -508,7 +509,7 @@ def departments():
             else:
                 staff.sort(key=lambda x: x[deformat_str(results.sort_by, True)], reverse=True)
 
-            return render_template('departments.html', departments=departments, columns=columns, staff=staff, results=results, display_results=True, username=session['username'], form=Form())
+            return render_template('departments.html', departments=departments, columns=columns, staff=staff, results=results, display_results=True, username=session['username'])
 
 
         # Retreive form
@@ -517,14 +518,14 @@ def departments():
 
         # Validate form
         if sort_by and not department:
-            return render_template('departments.html', departments_blank=True, departments=departments, columns=columns, username=session['username'], form=Form())
+            return render_template('departments.html', departments_blank=True, departments=departments, columns=columns, username=session['username'])
         elif not department and not sort_by and not departments_all:
-            return render_template('departments.html', form_blank=True, departments=departments, columns=columns, username=session['username'], form=Form())
+            return render_template('departments.html', form_blank=True, departments=departments, columns=columns, username=session['username'])
 
         # All
         if departments_all:
             department = 'all'
-            departments_all = False
+            # departments_all = False
 
         # SQL
         staff = access_staff_sql(deformat_str(department, False))
@@ -536,20 +537,25 @@ def departments():
             sort_by = 'Employee ID'
 
         # Format staff
-        for i in range(len(staff)):
+        staff_count = len(staff)
+        for i in range(staff_count):
             staff[i] = format_dict(staff[i])
 
         # Results
-        results = Results(department, sort_by, len(staff), 'ascending')
+        results = Results(department, sort_by, staff_count, 'ascending')
 
-        return render_template('departments.html', departments=departments, columns=columns, staff=staff, results=results, display_results=True, username=session['username'], form=Form())
+        land = False
+        if departments_all:
+            departments_all = False
+            land = True
+        return render_template('departments.html', departments=departments, columns=columns, staff=staff, results=results, display_results=True, landing_page=land, username=session['username'])
 
 
 
 @app.route("/csv_export", methods=['POST'])
 @login_required
 def csv_export():
-
+    print('HERE DEBUG CSV EXPORT')
     # Remove any previous CSVs
     os.system('rm -f csv/*')
 
@@ -1101,7 +1107,7 @@ def visualization():
         # Group joined_df and create pie chart
         create_pie_chart(numeric_column, categorical_column, pie_chart)
 
-        return render_template('visualization.html', pie_chart=pie_chart, form=Form())
+        return render_template('visualization.html', pie_chart=pie_chart, username=session['username'])
 
 
     #           --- POST ---
@@ -1114,7 +1120,7 @@ def visualization():
     # Group joined_df and create pie chart
     create_pie_chart(numeric_column, categorical_column, pie_chart)
 
-    return render_template('visualization.html', pie_chart=pie_chart, form=Form())
+    return render_template('visualization.html', pie_chart=pie_chart, username=session['username'])
 
 
 

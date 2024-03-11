@@ -32,7 +32,6 @@
                 <form action="/add_remove_department" method="post">
                     <button type="submit" class="dept_btn right" id="add_dept_btn" name="add_dept" value="True">Add Department</button>
                     <button type="submit" class="dept_btn" id="remove_dept_btn" name="remove_dept" value="True">Remove Department</button>
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 </form>
             </div>
 
@@ -52,7 +51,6 @@
                 <form action="/add_dept" method="post">
                     <input type="text" name="new_dept" autofocus autocomplete="off"><br>
                     <button type="submit" class="dept_btn right top" id="add_dept_btn" name="add_dept" value="True">Add Department</button>
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 </form>
             </div>
 
@@ -89,7 +87,6 @@
                 </select>
                 <br>
                 <button type="submit" class="dept_btn top" id="remove_dept_btn" name="remove_dept" value="True">Remove Department</button>
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             </form>
         </div>
     {% endif %}

@@ -49,7 +49,6 @@
             {% endfor %}
         </select>
         <input name="search" type="text" placeholder="Search" style="background-image:"><br>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button class="btn btn-primary top">Look Up</button>
     </form>
 
@@ -81,7 +80,6 @@
                 </tbody>
             </table>
             <div class="centered top">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn btn-success" type="submit">Edit this Person</button>
             </div>
         </form>

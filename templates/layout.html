@@ -23,27 +23,29 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link disabled" aria-current="page" >|</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="/add_new_staff">Add New Staff Member <img src="static/images/user-plus.svg" style="margin-bottom:5px"></a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/all_staff"">All Staff</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="/departments">Departments</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/all_staff"">All Staff/Departments</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="/staff_lookup"">Staff Lookup <img src="static/images/search.svg" style="margin-bottom:5px"></a></li>
+                        <!-- <li><a class="dropdown-item" href="/staff_lookup">Staff Lookup <img src="static/images/search.svg" style="margin-bottom:5px"></a></li> -->
+                        <!-- <li class="nav-item"><a class="nav-link active" href="/departments">Departments</a></li> -->
+                        <li class="nav-item"><a class="nav-link active" href="/visualization">Data Visualization <img src="static/images/pie-chart.svg" style="margin-bottom:5px"></a></li>
                     <!-- Dropdown -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         More Options
                         </a>
                         <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/staff_lookup">Staff Lookup <img src="static/images/search.svg" style="margin-bottom:5px"></a></li>
-                        <li><a class="dropdown-item" href="/remove_staff">Remove Staff Member <img src="static/images/user-minus.svg" style="margin-bottom:5px"></a></li>
+                        <!-- <li><a class="dropdown-item" href="/staff_lookup">Staff Lookup <img src="static/images/search.svg" style="margin-bottom:5px"></a></li> -->
                         <li><a class="dropdown-item" href="/edit_staff">Edit Staff Member <img src="static/images/edit.svg" style="margin-bottom:5px"></a></li>
+                        <li><a class="dropdown-item" href="/remove_staff">Remove Staff Member <img src="static/images/user-minus.svg" style="margin-bottom:5px"></a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/salary">Salaries</a></li>
                         <li><a class="dropdown-item" href="/former_staff">Former Staff</a></li>
                         <li><a class="dropdown-item" href="/add_remove_department">Add/Remove Department</a></li>
-                        <li><a class="dropdown-item" href="/visualization">Data Visualization</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link disabled">Disabled</a>
-                    </li>
+                    </li> -->
                     </ul>
                     <ul class="navbar-nav ms-auto mt-2">
                         <li class="nav-item"><a class="nav-link disabled" aria-current="page">Logged in as: {{ username }}</a></li>

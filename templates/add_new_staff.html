@@ -33,8 +33,6 @@
         <input type="text" name="salary" placeholder="$0.00" pattern="^\d+(\.\d{1,2})?$" title="Enter a valid currency amount" required><br>
         <label class="form-label top">Start Date</label><br>
         <input value="{{ today }}" name="start_date" type="date" placeholder="Start Date" autocomplete="off" class="form_class" title="Please Select Start Date" required><br>
-        {{ form.hidden_tag() }}
-        <!-- <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> -->
         <button class="btn btn-primary top" type="submit" class="form_class">Add Staff Member</button>
 
     </form>

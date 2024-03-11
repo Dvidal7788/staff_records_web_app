@@ -23,7 +23,6 @@
                 <label class="form-label">Enter PIN for access</label><br>
                 <input name="manager_pin" type="password" pattern="[0-9]{4}" maxlength="4"><br>
                 <input type="hidden" name="check_page1" value="True">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn btn-primary" type="submit" class="form_class" style="margin-top: 20px;">Get Access</button>
             </div>
 
@@ -85,7 +84,6 @@
                 <input name="notes" type="text" placeholder="Notes (optional)" autocomplete="off" class="form_class"><br>
             </div>
                 <input type="hidden" name="check_page2" value="True">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn btn-danger" type="submit" class="form_class">Remove Staff Member</button>
         </form>
 
@@ -117,7 +115,6 @@
                 <label class="form-label">ENTER PIN TO CONFIRM</label><br>
                 <input name="manager_pin" type="password" pattern="[0-9]{4}" maxlength="4" placeholder="PIN"><br>
                 <input type="hidden" name="check_page3" value="True">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn btn-danger" type="submit" class="form_class" style="margin-top: 20px;">REMOVE STAFF MEMBER</button>
             </div>
         </form>
